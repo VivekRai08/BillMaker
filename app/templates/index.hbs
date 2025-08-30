@@ -1,0 +1,116 @@
+{{page-title "Bill Maker - Dashboard"}}
+
+<div class="dashboard-page">
+  <div class="dashboard-header">
+    <h1>Welcome to Bill Maker</h1>
+    <p>Your complete billing solution for shop management</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon products-icon">
+        <i class="icon-products"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-number">{{this.totalProducts}}</div>
+        <div class="stat-label">Total Products</div>
+      </div>
+      <LinkTo @route="products" class="stat-link">
+        Manage Products
+      </LinkTo>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon invoices-icon">
+        <i class="icon-invoices"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-number">{{this.totalInvoices}}</div>
+        <div class="stat-label">Total Invoices</div>
+      </div>
+      <LinkTo @route="billing" class="stat-link">
+        Create Invoice
+      </LinkTo>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon customers-icon">
+        <i class="icon-customers"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-number">{{this.totalCustomers}}</div>
+        <div class="stat-label">Total Customers</div>
+      </div>
+      <LinkTo @route="billing" class="stat-link">
+        Create Invoice
+      </LinkTo>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon revenue-icon">
+        <i class="icon-revenue"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-number">₹{{this.totalRevenue}}</div>
+        <div class="stat-label">Total Revenue</div>
+      </div>
+      <LinkTo @route="billing" class="stat-link">
+        Create More
+      </LinkTo>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <LinkTo @route="products" class="action-card">
+        <div class="action-icon">
+          <i class="icon-add-product"></i>
+        </div>
+        <div class="action-content">
+          <h3>Add Product</h3>
+          <p>Add new products to your inventory</p>
+        </div>
+      </LinkTo>
+
+      <LinkTo @route="billing" class="action-card">
+        <div class="action-icon">
+          <i class="icon-create-invoice"></i>
+        </div>
+        <div class="action-content">
+          <h3>Create Invoice</h3>
+          <p>Generate a new invoice for a customer</p>
+        </div>
+      </LinkTo>
+
+    </div>
+  </div>
+
+  <div class="getting-started">
+    <h2>Get Started with Bill Maker</h2>
+    <p>Follow these simple steps to start creating professional invoices:</p>
+
+    <div class="steps">
+      <div class="step">
+        <h4>1. Add Your Products</h4>
+        <p>Create your product catalog with prices and GST rates</p>
+        <LinkTo @route="products" class="btn btn-primary">
+          Add Products
+        </LinkTo>
+      </div>
+
+      <div class="step">
+        <h4>2. Create Your First Invoice</h4>
+        <p>Generate professional invoices with automatic GST calculations</p>
+        <LinkTo @route="billing" class="btn btn-primary">
+          Create Invoice
+        </LinkTo>
+      </div>
+
+      <div class="step">
+        <h4>3. Print or Download</h4>
+        <p>Print invoices directly or download as PDF for records</p>
+      </div>
+    </div>
+  </div>
+</div>

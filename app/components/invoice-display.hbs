@@ -1,0 +1,130 @@
+<div class="invoice-container">
+  <div class="invoice-header">
+    <div class="invoice-actions">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        {{on "click" this.printInvoice}}
+      >
+        <i class="icon-print"></i>
+        Print Invoice
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        {{on "click" this.downloadPDF}}
+      >
+        <i class="icon-download"></i>
+        Download PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="invoice-printable">
+    {{!-- Invoice Header --}}
+    <div class="invoice-header-section">
+      <div class="shop-details">
+        <h1 class="shop-name">{{this.shopName}}</h1>
+        <div class="shop-info">
+          <p>123 Business Street</p>
+          <p>City, State - 123456</p>
+          <p>Phone: +91-9876543210</p>
+          <p>GSTIN: 22AAAAA0000A1Z5</p>
+        </div>
+      </div>
+      <div class="invoice-details">
+        <h2>TAX INVOICE</h2>
+        <div class="invoice-meta">
+          <p><strong>Invoice No:</strong> {{@invoice.id}}</p>
+          <p><strong>Date:</strong> {{this.invoiceDate}}</p>
+          <p><strong>Time:</strong> {{this.invoiceTime}}</p>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Customer Details --}}
+    <div class="customer-details">
+      <h3>Bill To:</h3>
+      <div class="customer-info">
+        <p><strong>{{@invoice.customerName}}</strong></p>
+        {{#if @invoice.customerPhone}}
+          <p>Phone: {{@invoice.customerPhone}}</p>
+        {{/if}}
+      </div>
+    </div>
+
+    {{!-- Invoice Items Table --}}
+    <div class="invoice-items">
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th class="item-sno">S.No</th>
+            <th class="item-description">Description</th>
+            <th class="item-quantity">Qty</th>
+            <th class="item-rate">Rate</th>
+            <th class="item-amount">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each @invoice.items as |item index|}}
+            <tr>
+              <td class="item-sno">{{this.getItemNumber index}}</td>
+              <td class="item-description">
+                <div class="item-name">{{item.productName}}</div>
+                <div class="item-gst">GST @ {{item.gstRate}}%</div>
+              </td>
+              <td class="item-quantity">{{item.quantity}}</td>
+              <td class="item-rate">₹{{item.basePrice}}</td>
+              <td class="item-amount">₹{{item.subtotal}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+    {{!-- Invoice Summary --}}
+    <div class="invoice-summary">
+      <div class="summary-section">
+        <div class="summary-row">
+          <span class="summary-label">Subtotal:</span>
+          <span class="summary-value">₹{{@invoice.subtotal}}</span>
+        </div>
+        <div class="summary-row gst-breakdown">
+          <span class="summary-label">CGST:</span>
+          <span class="summary-value">₹{{@invoice.cgst}}</span>
+        </div>
+        <div class="summary-row gst-breakdown">
+          <span class="summary-label">SGST:</span>
+          <span class="summary-value">₹{{@invoice.sgst}}</span>
+        </div>
+        <div class="summary-row total-row">
+          <span class="summary-label">Grand Total:</span>
+          <span class="summary-value">₹{{@invoice.grandTotal}}</span>
+        </div>
+      </div>
+    </div>
+
+    {{!-- GST Summary --}}
+    <div class="gst-summary">
+      <h4>GST Summary</h4>
+      <div class="gst-summary-content">
+        <p><strong>Total GST Amount:</strong> ₹{{@invoice.totalGST}}</p>
+        <p><strong>CGST (50%):</strong> ₹{{@invoice.cgst}}</p>
+        <p><strong>SGST (50%):</strong> ₹{{@invoice.sgst}}</p>
+      </div>
+    </div>
+
+    {{!-- Footer --}}
+    <div class="invoice-footer">
+      <div class="footer-content">
+        <p><strong>Thank you for your business!</strong></p>
+        <p class="disclaimer">
+          This is a computer generated invoice and does not require signature.
+        </p>
+        <div class="footer-meta">
+          <p>Generated on: {{this.invoiceDate}} at {{this.invoiceTime}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

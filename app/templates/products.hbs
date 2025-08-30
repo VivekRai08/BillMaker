@@ -1,0 +1,124 @@
+{{page-title "Products"}}
+
+<div class="products-page">
+  <div class="page-header">
+    <h2>Products</h2>
+    {{#unless this.showProductForm}}
+      <button
+        type="button"
+        class="btn btn-success"
+        {{on "click" this.showAddProductForm}}
+      >
+        <i class="icon-add"></i>
+        Add Product
+      </button>
+    {{/unless}}
+  </div>
+
+  {{#if this.showProductForm}}
+    <div class="card">
+      <h3>{{if this.editingProduct "Edit Product" "Add New Product"}}</h3>
+      <form {{on "submit" this.saveProduct}}>
+        <div class="form-group">
+          <label class="form-label">Product Name *</label>
+          <input
+            type="text"
+            class="form-control"
+            value={{this.productName}}
+            {{on "input" this.updateProductName}}
+            placeholder="Enter product name"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label class="form-label">Base Price (₹) *</label>
+          <input
+            type="number"
+            class="form-control"
+            value={{this.productPrice}}
+            {{on "input" this.updateProductPrice}}
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label class="form-label">GST Rate (%) *</label>
+          <input
+            type="number"
+            class="form-control"
+            value={{this.productGSTRate}}
+            {{on "input" this.updateProductGSTRate}}
+            placeholder="18"
+            min="0"
+            max="100"
+            step="0.01"
+            required
+          >
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Product</button>
+          <button type="button" class="btn btn-secondary" {{on "click" this.hideProductForm}}>Cancel</button>
+        </div>
+      </form>
+    </div>
+  {{else}}
+    {{#if this.products.length}}
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>GST Rate</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each this.products as |product|}}
+              <tr>
+                <td>{{product.name}}</td>
+                <td>₹{{product.basePrice}}</td>
+                <td>{{product.gstRate}}%</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-warning"
+                    {{on "click" (fn this.showEditProductForm product)}}
+                  >
+                    <i class="icon-edit"></i>
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    {{on "click" (fn this.deleteProduct product)}}
+                  >
+                    <i class="icon-delete"></i>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-state-content">
+          <i class="icon-products-large"></i>
+          <h3>No products yet</h3>
+          <p>Get started by adding your first product</p>
+          <button
+            type="button"
+            class="btn btn-primary"
+            {{on "click" this.showAddProductForm}}
+          >
+            Add Your First Product
+          </button>
+        </div>
+      </div>
+    {{/if}}
+  {{/if}}
+</div>

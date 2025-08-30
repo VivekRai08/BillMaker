@@ -1,0 +1,72 @@
+<div class="product-list-container">
+  <div class="product-list-header">
+    <h2>Products</h2>
+    <button
+      type="button"
+      class="btn btn-primary"
+      {{on "click" @onAddProduct}}
+    >
+      <i class="icon-add"></i>
+      Add Product
+    </button>
+  </div>
+
+  {{#if this.products.length}}
+    <div class="product-table-container">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Base Price</th>
+            <th>GST Rate</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each this.products as |product|}}
+            <tr>
+              <td>{{product.name}}</td>
+              <td>{{this.formatCurrency product.basePrice}}</td>
+              <td>{{this.formatGSTRate product.gstRate}}</td>
+              <td>{{product.createdAt}}</td>
+              <td class="actions-cell">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-secondary"
+                  {{on "click" (fn this.editProduct product)}}
+                >
+                  <i class="icon-edit"></i>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger"
+                  {{on "click" (fn this.deleteProduct product)}}
+                >
+                  <i class="icon-delete"></i>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <div class="empty-state">
+      <div class="empty-state-content">
+        <i class="icon-products-large"></i>
+        <h3>No products yet</h3>
+        <p>Get started by adding your first product</p>
+        <button
+          type="button"
+          class="btn btn-primary"
+          {{on "click" @onAddProduct}}
+        >
+          Add Your First Product
+        </button>
+      </div>
+    </div>
+  {{/if}}
+</div>

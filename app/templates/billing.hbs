@@ -1,0 +1,146 @@
+{{page-title "Billing"}}
+
+<div class="billing-page">
+  <div class="page-header">
+    <h2>Create Invoice</h2>
+  </div>
+
+  <div class="card mb-4">
+    <h3>Customer Details</h3>
+    <div class="form-group">
+      <label class="form-label">Customer Name *</label>
+      <input
+        type="text"
+        class="form-control"
+        value={{this.customerName}}
+        {{on "input" this.updateCustomerName}}
+        placeholder="Enter customer name"
+        required
+      >
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <h3>Available Products</h3>
+    {{#if this.products.length}}
+      <div class="products-grid">
+        {{#each this.products as |product|}}
+          <div class="product-card">
+            <div class="product-info">
+              <h4>{{product.name}}</h4>
+              <div class="product-details">
+                <span class="price">₹{{product.basePrice}}</span>
+                <span class="gst-rate">GST: {{product.gstRate}}%</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              {{on "click" (fn this.addProductToBill product)}}
+            >
+              <i class="icon-add"></i>
+              Add to Bill
+            </button>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-state-content">
+          <i class="icon-products-large"></i>
+          <h3>No products available</h3>
+          <p>Please add products first to create invoices</p>
+          <LinkTo @route="products" class="btn btn-primary">
+            Add Products
+          </LinkTo>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if this.selectedItems.length}}
+    <div class="card mb-4">
+      <h3>Selected Items</h3>
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Total</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each this.selectedItems as |item|}}
+              <tr>
+                <td>{{item.productName}}</td>
+                <td>₹{{item.basePrice}}</td>
+                <td>
+                  <input
+                    type="number"
+                    class="quantity-input"
+                    value={{item.quantity}}
+                    min="1"
+                    {{on "input" (fn this.updateItemQuantity item)}}
+                  >
+                </td>
+                <td>₹{{this.calculateItemTotal item.basePrice item.quantity}}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    {{on "click" (fn this.removeItemFromBill item)}}
+                  >
+                    <i class="icon-remove"></i>
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bill-summary">
+        <h4>Bill Summary</h4>
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span>₹{{this.invoiceCalculation.subtotal}}</span>
+        </div>
+        <div class="summary-row">
+          <span>CGST:</span>
+          <span>₹{{this.invoiceCalculation.cgst}}</span>
+        </div>
+        <div class="summary-row">
+          <span>SGST:</span>
+          <span>₹{{this.invoiceCalculation.sgst}}</span>
+        </div>
+        <div class="summary-row total-row">
+          <span>Grand Total:</span>
+          <span>₹{{this.invoiceCalculation.grandTotal}}</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-success"
+          {{on "click" this.generateInvoice}}
+        >
+          <i class="icon-generate"></i>
+          Generate Invoice
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          {{on "click" this.clearBill}}
+        >
+          <i class="icon-clear"></i>
+          Clear Bill
+        </button>
+      </div>
+    </div>
+  {{/if}}
+</div>
